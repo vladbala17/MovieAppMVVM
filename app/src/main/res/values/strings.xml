@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MovieAppArchitectureComponents</string>
+    <string name="rating_text">Rating</string>
 </resources>
