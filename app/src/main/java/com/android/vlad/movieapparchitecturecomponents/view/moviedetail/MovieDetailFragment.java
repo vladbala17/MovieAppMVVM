@@ -38,7 +38,6 @@ public class MovieDetailFragment extends Fragment {
         final MovieViewModel viewModel = ViewModelProviders.of(this, factory).get(MovieViewModel.class);
 
         binding.setMovieViewModel(viewModel);
-        binding.setIsLoading(true);
         observeViewModel(viewModel);
     }
 
@@ -59,6 +58,8 @@ public class MovieDetailFragment extends Fragment {
                 if (movie != null) {
                     binding.setIsLoading(false);
                     viewModel.setMovie(movie);
+                    binding.setMovie(movie);
+
                 }
             }
         });

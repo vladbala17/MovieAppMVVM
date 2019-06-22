@@ -32,8 +32,14 @@ public class CustomBindingAdapter {
         }
     }
 
+    @BindingAdapter({"android:src"})
+    public static void setImageViewResource(ImageView imageView, String url) {
+        Glide.with(imageView.getContext()).applyDefaultRequestOptions(RequestOptions.centerCropTransform()).load(MoviesWebService.IMAGE_BASE_URL + url).into(imageView);
+    }
+
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView view, String url) {
         Glide.with(view.getContext()).applyDefaultRequestOptions(RequestOptions.circleCropTransform()).load(MoviesWebService.IMAGE_BASE_URL + url).into(view);
     }
+
 }
