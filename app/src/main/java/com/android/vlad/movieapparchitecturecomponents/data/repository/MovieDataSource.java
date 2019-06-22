@@ -6,32 +6,23 @@ import com.android.vlad.movieapparchitecturecomponents.BuildConfig;
 import com.android.vlad.movieapparchitecturecomponents.data.model.Movie;
 import com.android.vlad.movieapparchitecturecomponents.data.repository.remote.MovieResponse;
 import com.android.vlad.movieapparchitecturecomponents.data.repository.remote.MoviesWebService;
+import com.android.vlad.movieapparchitecturecomponents.di.ApplicationComponent;
+import com.android.vlad.movieapparchitecturecomponents.di.DaggerApplicationComponent;
 import java.util.List;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
+import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MovieDataSource {
 
-    private MoviesWebService moviesWebService;
+    @Inject
+    MoviesWebService moviesWebService;
     private static MovieDataSource INSTANCE;
 
     private MovieDataSource() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-            .addInterceptor(interceptor)
-            .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(MoviesWebService.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build();
-
-        moviesWebService = retrofit.create(MoviesWebService.class);
+        ApplicationComponent component = DaggerApplicationComponent.builder().dataSource(this).build();
+        component.inject(this);
     }
 
     public synchronized static MovieDataSource getInstance() {
